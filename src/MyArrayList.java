@@ -1,15 +1,33 @@
-public class MyArrayList {
+import java.util.Iterator;//  NOT COLLECTION LIBRARY was taken only to practice with for each loop realisation
+
+public class MyArrayList implements Iterable<Object> {
 
     private Object[] L = new Object[1];
+
+    public Iterator<Object> iterator() {
+        return new Iterator<Object>() {
+            int currentPosition = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentPosition < size();
+            }
+
+            @Override
+            public Object next() {
+                Object element = L[currentPosition];
+                currentPosition++;
+                return element;
+            }
+        };
+    }
 
     public void add(Object obj) {
         if (L[L.length - 1] == null) {
             L[L.length - 1] = obj;
         } else {
             Object[] L1 = new Object[L.length + 1];
-            for (int i = 0; i < L.length; i++) {
-                L1[i] = L[i];
-            }
+            System.arraycopy(L, 0, L1, 0, L.length);
             L1[L1.length - 1] = obj;
             L = L1;
         }
@@ -18,30 +36,76 @@ public class MyArrayList {
     @Override
     public String toString() {
         StringBuilder myArray = new StringBuilder();
-        for (int i = 0; i < L.length; i++) {
-            myArray.append(L[i]).append(" ");
+        for (Object o : L) {
+            myArray.append(o).append(" ");
         }
-        return myArray.toString();
+        return myArray.toString().trim();
+    }
+
+    public void remove(int index) {
+        Object[] L1 = new Object[L.length - 1];
+
+        if (index >= 0) {
+            System.arraycopy(L, 0, L1, 0, index);
+        }
+        if (L.length - 1 - index >= 0) {
+            System.arraycopy(L, index + 1, L1, index, L.length - 1 - index);
+        }
+        L = L1;
+    }
+
+    public int size() {
+        return L.length;
+    }
+
+    public Object get(int i) {
+        return L[i];
+    }
+
+    public void clear() {
+        L = new Object[]{};
     }
 
 }
 
 class SansBox {
     public static void main(String[] args) {
-        MyArrayList mAL = new MyArrayList();
+        MyArrayList MyList = new MyArrayList();
+        System.out.println("Collection created, lets add some elements!");
         String myName = "Ruslan";
         String myFriendsName = "Kevin";
         Integer myAge = 33;
         Integer myFriendsAge = 37;
+        String WTF = "RandomGuy";
 
-        mAL.add(myName);
-        mAL.add(myAge);
-        mAL.add(myFriendsName);
-        mAL.add(myAge);
+        MyList.add(myName);
+        MyList.add(myAge);
+        MyList.add(WTF);
+        MyList.add(myFriendsName);
+        MyList.add(myFriendsAge);
 
+        System.out.println("After adding elements the size of MyList is: " + MyList.size());
+        System.out.println("Here are the elements: " + MyList);
 
-        System.out.println(mAL);
+        System.out.println("Lets check types of elements using FOR EACH cycle");
+        for (Object o : MyList) {
+            System.out.println(o.getClass());
+        }
 
+        MyList.remove(2);
+        System.out.println("After removing elements the size of MyList is: " + MyList.size());
+        System.out.println("Here are the elements: " + MyList);
 
+        System.out.println("Lets check types of elements using FOR EACH cycle");
+
+        for (Object o : MyList) {
+            System.out.println(o.getClass());
+        }
+
+        System.out.println("Getting element by position index 2: " + MyList.get(2));
+
+        MyList.clear();
+        System.out.println("Checking the size after cleaning the collection: " + MyList.size());
+        System.out.println("Printing collection right after it was cleaned: " + MyList);
     }
 }

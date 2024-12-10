@@ -1,11 +1,11 @@
 import java.util.Iterator;//  NOT COLLECTION LIBRARY was taken only to practice with for each loop realisation
 
-public class MyArrayList implements Iterable<Object> {
+public class MyArrayList<T> implements Iterable<T> {
 
     private Object[] L = new Object[1];
 
-    public Iterator<Object> iterator() {
-        return new Iterator<Object>() {
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
             int currentPosition = 0;
 
             @Override
@@ -14,15 +14,15 @@ public class MyArrayList implements Iterable<Object> {
             }
 
             @Override
-            public Object next() {
+            public T next() {
                 Object element = L[currentPosition];
                 currentPosition++;
-                return element;
+                return (T) element;
             }
         };
     }
 
-    public void add(Object obj) {
+    public void add(T obj) {
         if (L[L.length - 1] == null) {
             L[L.length - 1] = obj;
         } else {
@@ -36,7 +36,7 @@ public class MyArrayList implements Iterable<Object> {
     @Override
     public String toString() {
         StringBuilder myArray = new StringBuilder();
-        for (Object o : L) {
+        for( Object o : L) {
             myArray.append(o).append(" ");
         }
         return myArray.toString().trim();
@@ -58,8 +58,8 @@ public class MyArrayList implements Iterable<Object> {
         return L.length;
     }
 
-    public Object get(int i) {
-        return L[i];
+    public T get(int i) {
+        return (T)L[i];
     }
 
     public void clear() {
@@ -68,9 +68,9 @@ public class MyArrayList implements Iterable<Object> {
 
 }
 
-class SansBox {
+class MyArrayListSansBox {
     public static void main(String[] args) {
-        MyArrayList MyList = new MyArrayList();
+        MyArrayList <Object> MyList  = new MyArrayList<>();
         System.out.println("Collection created, lets add some elements!");
         String myName = "Ruslan";
         String myFriendsName = "Kevin";

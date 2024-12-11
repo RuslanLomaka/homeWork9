@@ -14,6 +14,7 @@ public class MyArrayList<T> implements Iterable<T> {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public T next() {
                 Object element = L[currentPosition];
                 currentPosition++;
@@ -58,6 +59,7 @@ public class MyArrayList<T> implements Iterable<T> {
         return L.length;
     }
 
+    @SuppressWarnings("unchecked")
     public T get(int i) {
         return (T)L[i];
     }
